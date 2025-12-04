@@ -1,0 +1,507 @@
+/* تنسيقات خاصة بـ Progressive Web App */
+
+/* ملء الشاشة في وضع PWA */
+@media (display-mode: standalone) {
+    body {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+    }
+    
+    .navbar {
+        padding-top: calc(1rem + env(safe-area-inset-top));
+        height: calc(var(--navbar-height) + env(safe-area-inset-top));
+    }
+    
+    .main-content {
+        margin-top: calc(var(--navbar-height) + env(safe-area-inset-top));
+    }
+    
+    .sidebar {
+        top: calc(var(--navbar-height) + env(safe-area-inset-top));
+        height: calc(100vh - var(--navbar-height) - env(safe-area-inset-top));
+    }
+    
+    /* إخفاء شريط العناوين في المتصفح */
+    .app-footer {
+        padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+    }
+}
+
+/* أنيميشن للتحميل */
+@keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+}
+
+.shimmer {
+    background: linear-gradient(90deg, 
+        var(--gray-200) 25%, 
+        var(--gray-100) 50%, 
+        var(--gray-200) 75%);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite linear;
+}
+
+/* تأثيرات اللمس */
+.tap-highlight {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.tap-feedback:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+}
+
+/* تحسينات للأجهزة ذات الشاشات الكبيرة */
+@media (min-width: 1024px) and (min-height: 600px) {
+    .welcome-container {
+        padding: 3rem;
+    }
+    
+    .modal {
+        max-width: 600px;
+    }
+    
+    .floating-action-btn {
+        display: none; /* إخفاء زر التعويم على الأجهزة الكبيرة */
+    }
+}
+
+/* تحسينات للشاشات الدوارة */
+@media (orientation: landscape) and (max-height: 600px) {
+    .welcome-screen {
+        overflow-y: scroll;
+        padding-bottom: 2rem;
+    }
+    
+    .welcome-container {
+        padding: 1rem;
+    }
+    
+    .logo-animation {
+        margin-bottom: 1rem;
+    }
+    
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* تحسينات للطباعة */
+@media print {
+    .navbar,
+    .sidebar,
+    .floating-action-btn,
+    .modal-overlay,
+    #toast-container {
+        display: none !important;
+    }
+    
+    .main-content {
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        background: white;
+        color: black;
+    }
+}
+
+/* تحسينات لإمكانية الوصول */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* التركيز للوحة المفاتيح */
+:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* تحسينات للقراءة */
+.readable-text {
+    line-height: 1.8;
+    max-width: 65ch;
+    margin: 0 auto;
+}
+
+/* تحسينات للأيقونات */
+.icon-large {
+    font-size: 1.5em;
+    vertical-align: middle;
+}
+
+/* تأثيرات خاصة للشجرة */
+.tree-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.tree-particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+}
+
+/* تحميل تقدمي للصور */
+.progressive-image {
+    background: var(--gray-200);
+    position: relative;
+    overflow: hidden;
+}
+
+.progressive-image.loaded {
+    background: transparent;
+}
+
+/* تأثيرات التمرير السلس */
+.smooth-scroll {
+    scroll-behavior: smooth;
+}
+
+/* تحسينات للشبكات الضعيفة */
+@media (prefers-reduced-data: reduce) {
+    .loading-screen {
+        background: var(--primary-color);
+    }
+    
+    .tree-grow,
+    .coin-spin {
+        display: none;
+    }
+    
+    .feature-icon {
+        font-size: 1.5rem;
+    }
+}
+
+/* إشعارات النظام */
+.system-notification {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    left: 1rem;
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    padding: 1rem;
+    display: none;
+    z-index: 3000;
+    border-left: 4px solid var(--primary-color);
+}
+
+.system-notification.active {
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.system-notification-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.system-notification-title {
+    font-weight: 600;
+    color: var(--gray-800);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.system-notification-close {
+    background: none;
+    border: none;
+    color: var(--gray-500);
+    cursor: pointer;
+    font-size: 1.25rem;
+    padding: 0.25rem;
+    border-radius: var(--radius-md);
+    transition: all 0.3s ease;
+}
+
+.system-notification-close:hover {
+    background: var(--gray-100);
+    color: var(--danger-color);
+}
+
+.system-notification-body {
+    font-size: 0.95rem;
+    color: var(--gray-600);
+}
+
+/* مؤشر التقدم */
+.progress-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: transparent;
+    z-index: 4000;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* تأثيرات الرنين */
+.ring-animation {
+    animation: ring 0.5s ease;
+}
+
+@keyframes ring {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(15deg); }
+    50% { transform: rotate(-15deg); }
+    75% { transform: rotate(10deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* تأثيرات الوهج */
+.glow {
+    filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.6));
+}
+
+.glow-blue {
+    filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
+}
+
+/* تأثيرات التموج */
+.ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+.ripple:focus:not(:active)::after {
+    animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(20, 20);
+        opacity: 0;
+    }
+}
+
+/* تحسينات لوضع ملء الشاشة */
+:fullscreen {
+    background: var(--gray-50);
+}
+
+:-webkit-full-screen {
+    background: var(--gray-50);
+}
+
+:-moz-full-screen {
+    background: var(--gray-50);
+}
+
+/* تنسيقات خاصة لمتصفح Safari */
+@supports (-webkit-touch-callout: none) {
+    .safari-only {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+}
+
+/* تنسيقات خاصة لمتصفح Firefox */
+@-moz-document url-prefix() {
+    .firefox-only {
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary-color) var(--gray-100);
+    }
+}
+
+/* دعم عالي التباين */
+@media (prefers-contrast: high) {
+    :root {
+        --primary-color: #005500;
+        --secondary-color: #0000AA;
+    }
+    
+    .btn-primary {
+        border: 2px solid black;
+    }
+}
+
+/* دعم الوضع المقلوب */
+@media (inverted-colors: inverted) {
+    img, video {
+        filter: invert(100%);
+    }
+}
+
+/* تحسينات للتحديثات في الخلفية */
+.update-available {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    background: var(--warning-color);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    display: none;
+    z-index: 3000;
+    animation: pulse 2s infinite;
+}
+
+.update-available.active {
+    display: block;
+}
+
+.update-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.update-button {
+    background: white;
+    color: var(--warning-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.update-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* تأثيرات الشعار */
+.logo-3d {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.logo-3d-inner {
+    transform: rotateY(20deg);
+    transition: transform 0.5s ease;
+}
+
+.logo-3d:hover .logo-3d-inner {
+    transform: rotateY(0deg);
+}
+
+/* أنيميشن النجاح */
+.success-animation {
+    position: relative;
+}
+
+.success-animation::before {
+    content: '🎉';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    animation: confetti 2s ease;
+    z-index: 1;
+}
+
+@keyframes confetti {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100px) rotate(360deg); opacity: 0; }
+}
+
+/* تأثيرات الكلمات */
+.text-gradient {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% 200%;
+    animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* تأثيرات الظل المتحرك */
+.moving-shadow {
+    position: relative;
+}
+
+.moving-shadow::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
+    background-size: 200% 200%;
+    animation: shine 3s infinite;
+    pointer-events: none;
+    border-radius: inherit;
+}
+
+@keyframes shine {
+    0% { background-position: -200% -200%; }
+    100% { background-position: 200% 200%; }
+}
+
+/* تأثيرات التداخل */
+.overlay-effect {
+    position: relative;
+}
+
+.overlay-effect::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, 
+        rgba(255,255,255,0.1) 0%, 
+        rgba(255,255,255,0) 50%, 
+        rgba(255,255,255,0.1) 100%);
+    pointer-events: none;
+}

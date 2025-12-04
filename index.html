@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="تحدي التوفير الذكي - حول التوفير إلى مغامرة ممتعة مع شجرة توفير تنمو مع مدخراتك">
+    <meta name="theme-color" content="#10B981">
+    
+    <title>تحدي التوفير الذكي - وفر بذكاء</title>
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/x-icon" href="icons/icon-192x192.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/pwa.css">
+    
+    <!-- الخطوط -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- مكتبات خارجية -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- الرسوم البيانية -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- شاشة التحميل -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loader-animation">
+                <div class="coin-spin">
+                    <div class="coin-front">💰</div>
+                    <div class="coin-back">💵</div>
+                </div>
+            </div>
+            <h2>جاري تحميل تحدى التوفير...</h2>
+            <p>استعد لمغامرة توفير لا تُنسى!</p>
+        </div>
+    </div>
+
+    <!-- شاشة الدخول -->
+    <div id="welcome-screen" class="welcome-screen active">
+        <div class="welcome-container">
+            <!-- شعار متحرك -->
+            <div class="logo-animation">
+                <div class="logo-icon">
+                    <div class="tree-grow">
+                        <div class="tree">🌳</div>
+                        <div class="coins">
+                            <span class="coin">💰</span>
+                            <span class="coin">💵</span>
+                            <span class="coin">💎</span>
+                        </div>
+                    </div>
+                </div>
+                <h1 class="logo-text">تحدي التوفير الذكي</h1>
+                <p class="logo-subtitle">حول التوفير إلى مغامرة ممتعة</p>
+            </div>
+
+            <!-- نموذج الدخول -->
+            <div class="login-form">
+                <div class="form-group">
+                    <label for="username">
+                        <i class="fas fa-user"></i> اسم المستخدم
+                    </label>
+                    <input type="text" id="username" placeholder="ما اسمك؟" autocomplete="off" maxlength="20">
+                </div>
+
+                <div class="form-group">
+                    <label for="monthly-income">
+                        <i class="fas fa-money-bill-wave"></i> الدخل الشهري (اختياري)
+                    </label>
+                    <input type="number" id="monthly-income" placeholder="جنيه" min="100" step="100">
+                    <small class="hint">لتخصيص نصائح التوفير لك</small>
+                </div>
+
+                <button id="start-journey" class="btn-primary pulse">
+                    <i class="fas fa-rocket"></i> ابدأ رحلة التوفير
+                </button>
+
+                <!-- أهداف سريعة -->
+                <div class="quick-targets">
+                    <p class="section-label"><i class="fas fa-bullseye"></i> اختر هدفاً سريعاً:</p>
+                    <div class="target-buttons">
+                        <button class="target-btn" data-target="500">
+                            <span class="amount">500</span>
+                            <span class="label">جنيه</span>
+                        </button>
+                        <button class="target-btn" data-target="1000">
+                            <span class="amount">1000</span>
+                            <span class="label">جنيه</span>
+                        </button>
+                        <button class="target-btn" data-target="2000">
+                            <span class="amount">2000</span>
+                            <span class="label">جنيه</span>
+                        </button>
+                        <button class="target-btn" data-target="5000">
+                            <span class="amount">5000</span>
+                            <span class="label">جنيه</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- المميزات -->
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🌳</div>
+                    <h3>شجرة توفير تفاعلية</h3>
+                    <p>شجرتك تنمو مع كل جنيه تدخره</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔔</div>
+                    <h3>تنبيهات ذكية</h3>
+                    <p>نظام تحفيز يرافقك في رحلتك</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>تقارير مفصلة</h3>
+                    <p>احصائيات وتقارير عن تقدمك</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>تحديات ممتعة</h3>
+                    <p>تحديات فردية وجماعية</p>
+                </div>
+            </div>
+
+            <!-- تلميح -->
+            <div class="tip-box">
+                <i class="fas fa-lightbulb"></i>
+                <p>"التوفير ليس حرماناً، بل هو أول خطوة نحو الحرية المالية"</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- التطبيق الرئيسي -->
+    <div id="main-app" class="main-app">
+        <!-- شريط التنقل -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <button class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="app-logo">
+                    <span class="logo-icon-small">💰</span>
+                    <span class="logo-text-small">تحدي التوفير</span>
+                </div>
+            </div>
+
+            <div class="nav-actions">
+                <button class="nav-btn notification-btn" id="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge" id="notification-badge">0</span>
+                </button>
+                
+                <button class="nav-btn add-saving-btn" id="add-saving-btn">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>إضافة توفير</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- القائمة الجانبية -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="user-profile">
+                    <div class="avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="user-info">
+                        <h3 id="user-name">مستخدم</h3>
+                        <p class="user-level">
+                            <i class="fas fa-star"></i>
+                            <span id="user-level">مبتدئ</span>
+                        </p>
+                    </div>
+                </div>
+                <button class="close-sidebar" id="close-sidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="#" class="menu-item active" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>لوحة التحكم</span>
+                </a>
+                
+                <a href="#" class="menu-item" data-page="challenges">
+                    <i class="fas fa-flag-checkered"></i>
+                    <span>التحديات</span>
+                </a>
+                
+                <a href="#" class="menu-item" data-page="analytics">
+                    <i class="fas fa-chart-line"></i>
+                    <span>الإحصائيات</span>
+                </a>
+                
+                <a href="#" class="menu-item" data-page="savings-history">
+                    <i class="fas fa-history"></i>
+                    <span>سجل التوفير</span>
+                </a>
+                
+                <a href="#" class="menu-item" data-page="achievements">
+                    <i class="fas fa-trophy"></i>
+                    <span>الإنجازات</span>
+                    <span class="badge badge-blue" id="achievements-badge">3</span>
+                </a>
+                
+                <a href="#" class="menu-item" data-page="tips">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>نصائح توفير</span>
+                </a>
+                
+                <a href="#" class="menu-item" data-page="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>الإعدادات</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="install-app-btn" id="install-btn">
+                    <i class="fas fa-download"></i>
+                    <span>تثبيت التطبيق</span>
+                </button>
+                
+                <button class="logout-btn" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>تسجيل خروج</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- المحتوى الرئيسي -->
+        <main class="main-content" id="main-content">
+            <!-- سيتم تحميل المحتوى هنا ديناميكياً -->
+        </main>
+
+        <!-- نافذة إضافة توفير -->
+        <div class="modal-overlay" id="add-saving-modal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3><i class="fas fa-piggy-bank"></i> إضافة توفير جديد</h3>
+                    <button class="modal-close" id="close-saving-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="saving-input-container">
+                        <div class="amount-input-group">
+                            <label for="saving-amount">
+                                <i class="fas fa-money-bill"></i> المبلغ (جنيه)
+                            </label>
+                            <div class="input-with-icon">
+                                <input type="number" 
+                                       id="saving-amount" 
+                                       placeholder="أدخل المبلغ المدخر"
+                                       min="1"
+                                       step="1">
+                                <span class="currency">ج.م</span>
+                            </div>
+                        </div>
+
+                        <!-- مبالغ سريعة -->
+                        <div class="quick-amounts">
+                            <p class="section-label">مبالغ سريعة:</p>
+                            <div class="amount-buttons">
+                                <button class="amount-quick-btn" data-amount="10">10 ج</button>
+                                <button class="amount-quick-btn" data-amount="20">20 ج</button>
+                                <button class="amount-quick-btn" data-amount="50">50 ج</button>
+                                <button class="amount-quick-btn" data-amount="100">100 ج</button>
+                                <button class="amount-quick-btn" data-amount="200">200 ج</button>
+                                <button class="amount-quick-btn" data-amount="500">500 ج</button>
+                            </div>
+                        </div>
+
+                        <!-- فئة التوفير -->
+                        <div class="saving-category">
+                            <p class="section-label">فئة التوفير:</p>
+                            <div class="category-buttons">
+                                <button class="category-btn active" data-category="عام">
+                                    <i class="fas fa-coins"></i>
+                                    <span>عام</span>
+                                </button>
+                                <button class="category-btn" data-category="طعام">
+                                    <i class="fas fa-utensils"></i>
+                                    <span>طعام</span>
+                                </button>
+                                <button class="category-btn" data-category="ترفيه">
+                                    <i class="fas fa-gamepad"></i>
+                                    <span>ترفيه</span>
+                                </button>
+                                <button class="category-btn" data-category="مواصلات">
+                                    <i class="fas fa-car"></i>
+                                    <span>مواصلات</span>
+                                </button>
+                                <button class="category-btn" data-category="قهوة">
+                                    <i class="fas fa-coffee"></i>
+                                    <span>قهوة</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- ملاحظة -->
+                        <div class="saving-notes">
+                            <label for="saving-notes">
+                                <i class="fas fa-sticky-note"></i> ملاحظة (اختياري)
+                            </label>
+                            <textarea id="saving-notes" 
+                                      placeholder="مثال: وفرتها من عدم شراء مشروب غازي..."
+                                      rows="2"></textarea>
+                        </div>
+
+                        <!-- زر الحفظ -->
+                        <button class="btn-save-saving" id="save-saving-btn">
+                            <i class="fas fa-save"></i> حفظ التوفير
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- نافذة الإشعارات -->
+        <div class="modal-overlay" id="notifications-modal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3><i class="fas fa-bell"></i> الإشعارات</h3>
+                    <div class="modal-actions">
+                        <button class="mark-all-read" id="mark-all-read">
+                            <i class="fas fa-check-double"></i> تحديد الكل كمقروء
+                        </button>
+                        <button class="modal-close" id="close-notifications-modal">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="notifications-list" id="notifications-list">
+                        <!-- سيتم ملؤها ديناميكياً -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- زر سريع لإضافة توفير (للهواتف) -->
+        <button class="floating-action-btn" id="quick-add-btn">
+            <i class="fas fa-plus"></i>
+        </button>
+
+        <!-- إشعارات مؤقتة -->
+        <div id="toast-container"></div>
+
+        <!-- شاشة لا يوجد اتصال -->
+        <div class="offline-overlay" id="offline-overlay">
+            <div class="offline-content">
+                <div class="offline-icon">
+                    <i class="fas fa-wifi-slash"></i>
+                </div>
+                <h3>لا يوجد اتصال بالإنترنت</h3>
+                <p>يمكنك الاستمرار في استخدام التطبيق، سيتم مزامنة البيانات عند عودة الاتصال</p>
+                <button class="btn-retry" id="retry-connection">
+                    <i class="fas fa-sync-alt"></i> محاولة الاتصال
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- تذييل الصفحة -->
+    <footer class="app-footer">
+        <div class="footer-content">
+            <p>© 2024 تطبيق تحدى التوفير الذكي. كل الحقوق محفوظة.</p>
+            <p class="version">الإصدار 1.0.0 | يعمل بدون اتصال بالإنترنت</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/db.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/savingsTree.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- تسجيل Service Worker -->
+    <script>
+        // تسجيل Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('js/service-worker.js')
+                    .then(function(registration) {
+                        console.log('✅ ServiceWorker مسجل بنجاح:', registration);
+                        
+                        // طلب إذن الإشعارات
+                        if ('Notification' in window && Notification.permission === 'default') {
+                            Notification.requestPermission();
+                        }
+                    })
+                    .catch(function(err) {
+                        console.log('❌ خطأ في تسجيل ServiceWorker:', err);
+                    });
+            });
+        }
+
+        // كشف PWA
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            window.deferredInstallPrompt = e;
+            
+            // إظهار زر التثبيت بعد 5 ثواني
+            setTimeout(() => {
+                if (window.deferredInstallPrompt) {
+                    document.getElementById('install-btn').style.display = 'flex';
+                }
+            }, 5000);
+        });
+
+        // كشف الاتصال بالإنترنت
+        window.addEventListener('online', () => {
+            document.getElementById('offline-overlay').classList.remove('active');
+            showToast('تم استعادة الاتصال بالإنترنت', 'success');
+        });
+
+        window.addEventListener('offline', () => {
+            document.getElementById('offline-overlay').classList.add('active');
+        });
+    </script>
+</body>
+</html>
